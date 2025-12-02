@@ -6,49 +6,43 @@ class Range(NamedTuple):
     stop: int
 
 
-class IdChecker:
-    def __init__(self):
-        pass
+def validate_id(id_: int) -> bool:
+    as_str = str(id_)
+    length = len(as_str)
 
-    @staticmethod
-    def validate_id(id_: int) -> bool:
-        as_str = str(id_)
-        length = len(as_str)
+    for seq_len in range(1, length):
+        chunks = {as_str[i : i + seq_len] for i in range(0, length, seq_len)}
+        # print(chunks)
+        if len(chunks) == 1:
+            return False
 
-        for seq_len in range(1, length):
-            chunks = {as_str[i : i + seq_len] for i in range(0, length, seq_len)}
-            # print(chunks)
-            if len(chunks) == 1:
-                return False
+    return True
 
-        return True
 
-    @classmethod
-    def get_invalid_ids(cls, id_range: Range) -> set[int]:
-        invalid_ids = set()
-        for i in range(id_range.start, id_range.stop + 1):
-            if not cls.validate_id(i):
-                invalid_ids.add(i)
+def get_invalid_ids(id_range: Range) -> set[int]:
+    invalid_ids = set()
+    for i in range(id_range.start, id_range.stop + 1):
+        if not validate_id(i):
+            invalid_ids.add(i)
 
-        return invalid_ids
+    return invalid_ids
 
-    @classmethod
-    def get_sum_from_line(cls, line: str) -> int:
-        ranges = line.split(",")
 
-        invalid_ids = set()
-        for r_str in ranges:
-            r = r_str.split("-")
-            invalid_ids.update(cls.get_invalid_ids(Range(int(r[0]), int(r[1]))))
+def get_sum_from_line(line: str) -> int:
+    ranges = line.split(",")
 
-        return sum(invalid_ids)
+    invalid_ids = set()
+    for r_str in ranges:
+        r = r_str.split("-")
+        invalid_ids.update(get_invalid_ids(Range(int(r[0]), int(r[1]))))
+
+    return sum(invalid_ids)
 
 
 if __name__ == "__main__":
     with open("day2/input.txt", "r") as f:
         input_line = f.readline()
 
-    id_checker = IdChecker()
-    invalid_id_sum = id_checker.get_sum_from_line(input_line)
+    invalid_id_sum = get_sum_from_line(input_line)
 
     print(f"Sum of invalid ids: {invalid_id_sum}")

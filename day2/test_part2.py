@@ -1,10 +1,5 @@
 import pytest
-from part2 import IdChecker, Range
-
-
-@pytest.fixture
-def id_checker() -> IdChecker:
-    return IdChecker()
+from part2 import Range, get_invalid_ids, get_sum_from_line, validate_id
 
 
 @pytest.fixture
@@ -16,34 +11,30 @@ def line() -> str:
     )
 
 
-class TestIdChecker:
-    def test_init_id_checker(self) -> None:
-        id_checker = IdChecker()
-        assert isinstance(id_checker, IdChecker)
+@pytest.mark.parametrize(
+    "id_", [11, 22, 99, 111, 1010, 1188511885, 222222, 38593859, 446446]
+)
+def test_validate_id_false(id_) -> None:
+    assert not validate_id(id_)
 
-    @pytest.mark.parametrize(
-        "id_", [11, 22, 99, 111, 1010, 1188511885, 222222, 38593859, 446446]
-    )
-    def test_validate_id_false(self, id_checker, id_) -> None:
-        assert not id_checker.validate_id(id_)
 
-    @pytest.mark.parametrize("id_", [123, 12345])
-    def test_validate_id_true(self, id_checker, id_) -> None:
-        assert id_checker.validate_id(id_)
+@pytest.mark.parametrize("id_", [123, 12345])
+def test_validate_id_true(id_) -> None:
+    assert validate_id(id_)
 
-    @pytest.mark.parametrize(
-        "id_range,invalid_ids",
-        [
-            (Range(11, 22), {11, 22}),
-            (Range(95, 115), {99, 111}),
-            (Range(998, 1012), {999, 1010}),
-        ],
-    )
-    def test_get_invalid_ids(
-        self, id_checker, id_range: Range, invalid_ids: set[int]
-    ) -> None:
-        assert id_checker.get_invalid_ids(id_range) == invalid_ids
 
-    def test_get_sum_from_line(self, id_checker, line) -> None:
-        invalid_id_sum = id_checker.get_sum_from_line(line)
-        assert invalid_id_sum == 4174379265
+@pytest.mark.parametrize(
+    "id_range,invalid_ids",
+    [
+        (Range(11, 22), {11, 22}),
+        (Range(95, 115), {99, 111}),
+        (Range(998, 1012), {999, 1010}),
+    ],
+)
+def test_get_invalid_ids(id_range: Range, invalid_ids: set[int]) -> None:
+    assert get_invalid_ids(id_range) == invalid_ids
+
+
+def test_get_sum_from_line(line) -> None:
+    invalid_id_sum = get_sum_from_line(line)
+    assert invalid_id_sum == 4174379265
