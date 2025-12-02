@@ -8,35 +8,46 @@ class Range(NamedTuple):
 
 class IdChecker:
     def __init__(self):
-        self.sum = 0
+        pass
 
-    def validate_id(self, id_: int) -> None:
+    @staticmethod
+    def validate_id(id_: int) -> bool:
         as_str = str(id_)
         length = len(as_str)
 
         if length % 2 != 0:
-            return
+            return True
 
         half = length // 2
+        # print(f"{as_str[:half]=} | {as_str[half:]=}")
         if as_str[:half] == as_str[half:]:
-            print(f"invalid id: {id_:10d} | new sum: {self.sum}")
-            self.sum += id_
+            return False
 
-    def check_invalid_ids(self, id_range: Range):
+        return True
+
+    @classmethod
+    def get_invalid_ids(cls, id_range: Range) -> set[int]:
+        invalid_ids = set()
         for i in range(id_range.start, id_range.stop + 1):
-            self.validate_id(i)
+            if not cls.validate_id(i):
+                invalid_ids.add(i)
 
-    def get_invalid_ids_from_str(self, range_str: str) -> set[int]:
+        return invalid_ids
+
+    @classmethod
+    def get_invalid_ids_from_str(cls, range_str: str) -> set[int]:
         r = range_str.split("-")
-        self.check_invalid_ids(Range(int(r[0]), int(r[1])))
+        return cls.get_invalid_ids(Range(int(r[0]), int(r[1])))
 
-    def get_sum_from_line(self, line: str) -> int:
+    @classmethod
+    def get_sum_from_line(cls, line: str) -> int:
         ranges = line.split(",")
 
+        invalid_ids = set()
         for r_str in ranges:
-            self.get_invalid_ids_from_str(r_str)
+            invalid_ids.update(cls.get_invalid_ids_from_str(r_str))
 
-        return self.sum
+        return sum(invalid_ids)
 
 
 if __name__ == "__main__":
@@ -46,4 +57,4 @@ if __name__ == "__main__":
     id_checker = IdChecker()
     invalid_id_sum = id_checker.get_sum_from_line(input_line)
 
-    print(f"Sum of invalid ids: {invalid_id_sum}")
+    print(f"Sum of invalid ids:{invalid_id_sum}")
