@@ -14,13 +14,22 @@ class NorthPoleSafe:
 
         sign = -1 if dir == "L" else 1
 
-        self.dial_pos = self.dial_pos + distance * sign
+        update_pos_by = distance % self.NUM_DIAL_POSITIONS
+        turns = abs(distance // self.NUM_DIAL_POSITIONS)
 
-        if self.dial_pos < self._MIN_POS or self.dial_pos > self._MAX_POS:
-            self.dial_pos %= self.NUM_DIAL_POSITIONS
+        self.num_0_positions += turns
 
-        if self.dial_pos == 0:
-            self.num_0_positions += 1
+        new_pos = self.dial_pos + update_pos_by * sign
+
+        if new_pos <= self._MIN_POS or new_pos > self._MAX_POS:
+            if self.dial_pos != 0:
+                self.num_0_positions += 1
+            new_pos %= self.NUM_DIAL_POSITIONS
+
+        print(
+            f"old: {self.dial_pos:2d} | new: {new_pos:2d} | dialed: {rotation:>4} | total 0s: {self.num_0_positions} | turns: {turns}"
+        )
+        self.dial_pos = new_pos
 
     def dial_sequence(self, sequence: list[str]) -> None:
         for rotation in sequence:
