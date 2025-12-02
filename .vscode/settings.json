@@ -7,7 +7,7 @@
     }
   },
   "python.testing.pytestArgs": [
-    "day1"
+    "day2"
   ],
   "python.testing.unittestEnabled": false,
   "python.testing.pytestEnabled": true
