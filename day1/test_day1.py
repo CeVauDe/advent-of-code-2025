@@ -18,3 +18,8 @@ class TestNorthPoleSafe:
         safe.dial("L10")
 
         assert safe.dial_position == 40
+
+    def test_rotate_dial_right(self, safe) -> None:
+        safe.dial("R10")
+
+        assert safe.dial_position == 60

@@ -10,3 +10,5 @@ class NorthPoleSafe:
 
         if dir == "L":
             self.dial_position -= distance
+        if dir == "R":
+            self.dial_position += distance
