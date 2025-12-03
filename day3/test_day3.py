@@ -1,15 +1,8 @@
+import pytest
+
 from day3 import get_joiltage
 
 
-def test_get_joiltage() -> None:
-    j = get_joiltage("987")
-
-    assert j == 98
-
-
-def test_get_joiltage_2() -> None:
-    assert get_joiltage("876") == 87
-
-
-def test_get_joiltage_3() -> None:
-    assert get_joiltage("854") == 85
+@pytest.mark.parametrize("bank,joiltage", [("987", 98), ("876", 87), ("854", 85)])
+def test_get_joiltage(bank: str, joiltage: int) -> None:
+    assert get_joiltage(bank) == joiltage
