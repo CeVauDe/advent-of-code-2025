@@ -10,7 +10,12 @@ def get_joiltage(bank: str, num_batteries: int = 12) -> int:
         if counts.get(str(i), 0) >= num_batteries:
             return int(str(i) * num_batteries)
 
-    return -1
+    highest_joltage = ""
+    for b in bank:
+        if len(highest_joltage) < num_batteries:
+            highest_joltage += b
+
+    return int(highest_joltage)
 
 
 if __name__ == "__main__":
