@@ -1,26 +1,19 @@
-from collections import Counter
 from copy import copy
 
 
 def get_joiltage(bank: str, num_batteries: int = 12) -> int:
     assert len(bank) >= num_batteries
-
-    counts = Counter(bank)
-
-    for i in range(10, 0, -1):
-        if counts.get(str(i), 0) >= num_batteries:
-            return int(str(i) * num_batteries)
-
     highest_joltage = []
-    for b in bank:
+    for i, b in enumerate(bank):
         if len(highest_joltage) < num_batteries:
             highest_joltage += b
         else:
-            for i in range(len(highest_joltage)):
+            max_start_index = max(0, len(highest_joltage) - (len(bank) - i))
+            for j in range(max_start_index, len(highest_joltage)):
                 trial_joltage = copy(highest_joltage)
-                trial_joltage[i] = b
+                trial_joltage[j] = b
                 if int("".join(trial_joltage)) > int("".join(highest_joltage)):
-                    highest_joltage[i] = b
+                    highest_joltage[j] = b
                     continue
 
     return int("".join(highest_joltage))
