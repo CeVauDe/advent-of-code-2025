@@ -13,3 +13,16 @@ def get_joiltage(bank: str) -> int:
         next_highest = int(bank[-1])
 
     return highest_battery * 10 + next_highest
+
+
+if __name__ == "__main__":
+    with open("day3/input.txt", "r") as f:
+        banks = f.readlines()
+    banks = [b.strip() for b in banks]
+
+    total_joltage = 0
+
+    for bank in banks:
+        total_joltage += get_joiltage(bank=bank)
+
+    print(f"Total output joltage ist: {total_joltage}")
