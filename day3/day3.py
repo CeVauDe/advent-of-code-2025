@@ -7,9 +7,9 @@ def get_joiltage(bank: str, num_batteries: int = 12) -> int:
     for i, b in enumerate(bank):
         batteries_missing = len(highest_joltage) < num_batteries
         digit_less_than_next_digit = (i + 1 < len(bank)) and (int(b) < int(bank[i + 1]))
-        enough_batteries_left_to_fill_without_current_digit = (
-            len(bank) - i >= num_batteries
-        )
+        enough_batteries_left_to_fill_without_current_digit = len(
+            bank
+        ) - i > num_batteries - len(highest_joltage)
 
         if (
             batteries_missing
