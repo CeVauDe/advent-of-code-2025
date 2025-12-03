@@ -4,7 +4,7 @@ from day3 import get_joiltage
 
 
 @pytest.mark.parametrize(
-    "bank,joiltage", [("987", 98), ("876", 87), ("854", 85), ("757", 77)]
+    "bank,joiltage", [("987", 98), ("876", 87), ("854", 85), ("757", 77), ("345", 45)]
 )
 def test_get_joiltage(bank: str, joiltage: int) -> None:
     assert get_joiltage(bank) == joiltage
