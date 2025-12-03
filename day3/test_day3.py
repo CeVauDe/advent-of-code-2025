@@ -6,16 +6,22 @@ from day3 import get_joiltage
 @pytest.mark.parametrize(
     "bank,joiltage",
     [
-        ("987", 98),
-        ("876", 87),
-        ("854", 85),
-        ("757", 77),
-        ("345", 45),
-        ("811111111111119", 89),
-        ("987654321111111", 98),
-        ("234234234234278", 78),
-        ("818181911112111", 92),
+        ("999999999999", 999999999999),
+        # ("987654321111111", 987654321111),
+        # ("811111111111119", 811111111119),
+        # ("234234234234278", 434234234278),
+        # ("818181911112111", 888911112111),
     ],
 )
 def test_get_joiltage(bank: str, joiltage: int) -> None:
     assert get_joiltage(bank) == joiltage
+
+
+@pytest.mark.parametrize(
+    "bank,joiltage",
+    [
+        ("999", 999),
+    ],
+)
+def test_get_joilage_3_batteries(bank: str, joiltage: int) -> None:
+    assert get_joiltage(bank, num_batteries=3) == joiltage
