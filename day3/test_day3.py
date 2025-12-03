@@ -1,14 +1,6 @@
 import pytest
 
-from day3 import get_joltage, get_num_higher_digits_left
-
-
-@pytest.mark.parametrize(
-    "digit,bank,expectation",
-    [(3, "456", 3), (8, "136542642844", 0)],
-)
-def test_get_num_higher_digits_left(digit: int, bank: str, expectation: int) -> None:
-    assert get_num_higher_digits_left(digit, bank) == expectation
+from day3 import make_largest_joltage
 
 
 @pytest.mark.parametrize(
@@ -26,7 +18,7 @@ def test_get_num_higher_digits_left(digit: int, bank: str, expectation: int) -> 
     ],
 )
 def test_get_joiltage(bank: str, joltage: int) -> None:
-    assert get_joltage(bank) == joltage
+    assert make_largest_joltage(bank) == joltage
 
 
 @pytest.mark.parametrize(
@@ -40,4 +32,4 @@ def test_get_joiltage(bank: str, joltage: int) -> None:
     ],
 )
 def test_get_joilage_3_batteries(bank: str, joltage: int) -> None:
-    assert get_joltage(bank, num_batteries=3) == joltage
+    assert make_largest_joltage(bank, num_batteries=3) == joltage
