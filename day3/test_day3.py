@@ -19,7 +19,7 @@ def test_get_joiltage(bank: str, joiltage: int) -> None:
 
 @pytest.mark.parametrize(
     "bank,joiltage",
-    [("999", 999), ("42434", 444), ("432", 432)],
+    [("999", 999), ("42434", 444), ("432", 432), ("4323", 433)],
 )
 def test_get_joilage_3_batteries(bank: str, joiltage: int) -> None:
     assert get_joiltage(bank, num_batteries=3) == joiltage
